@@ -7,22 +7,22 @@ function Slider() {
     <Carousel.Item  >
       <img
        
-        src={"/assets/images/img-0.jpeg"}
+        src="https://i.dummyjson.com/data/products/5/2.jpg"
         alt="First slide"
       />
    
     </Carousel.Item>
     <Carousel.Item>
       <img
-        src={"/assets/images/img-1.jpg"}
-        alt="Second slide"
+  src="https://i.dummyjson.com/data/products/1/3.jpg"
+          alt="Second slide"
       />
 
      
     </Carousel.Item>
     <Carousel.Item>
       <img
-        src={"/assets/images/img-3.jpg"}
+        src="https://i.dummyjson.com/data/products/2/3.jpg"
         alt="Third slide"
       />
 

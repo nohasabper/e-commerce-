@@ -13,7 +13,7 @@ function Cart() {
    },0)
    return (
       <>
-      <h3 className='m-5'>Total Price : {totalPrice.toFixed(2)}</h3>
+      <h3 className='m-5 p-5'>Total Price : {totalPrice.toFixed(2)}</h3>
          <Table striped bordered hover>
             <thead>
                <tr>

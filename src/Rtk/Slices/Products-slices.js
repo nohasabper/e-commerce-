@@ -12,6 +12,10 @@ export const productsSlice = createSlice({
    name: 'productsSlice',
    initialState : [],
    reducers: {
+      handleSearchJobs: (state, action) => {
+         state.searchedProduct= [];
+         state.searchedProduct.push(action.payload)
+     },
    },
    extraReducers: (builder)=>{
       builder.addCase(fetchProducts.fulfilled,(state,action)=>{
