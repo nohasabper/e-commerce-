@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/nohasabper/e-commerce-/static/css/main.885ac620.css",
-    "main.js": "/nohasabper/e-commerce-/static/js/main.602090c4.js",
+    "main.js": "/nohasabper/e-commerce-/static/js/main.b867a292.js",
     "index.html": "/nohasabper/e-commerce-/index.html",
     "main.885ac620.css.map": "/nohasabper/e-commerce-/static/css/main.885ac620.css.map",
-    "main.602090c4.js.map": "/nohasabper/e-commerce-/static/js/main.602090c4.js.map"
+    "main.b867a292.js.map": "/nohasabper/e-commerce-/static/js/main.b867a292.js.map"
   },
   "entrypoints": [
     "static/css/main.885ac620.css",
-    "static/js/main.602090c4.js"
+    "static/js/main.b867a292.js"
   ]
 }
