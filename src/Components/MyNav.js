@@ -9,7 +9,7 @@ function NavBar() {
    const cart = useSelector(store => store.cart)
    return (      <Navbar className='fixed-top' bg="primary" expand="lg" >
          <Container>
-            <Link to="/react-project/" className='navbar-brand text-light'>ShopApp</Link>
+            <Link to="/" className='navbar-brand text-light'>ShopApp</Link>
   
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

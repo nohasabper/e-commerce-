@@ -18,7 +18,7 @@ function App() {
     <div className="App">
       <NavBar/>
       <Routes>
-      <Route path='/react-project/' element={<Home/>}></Route>
+      <Route path='/' element={<Home/>}></Route>
 
         <Route path='/Products' element={<Products/>}></Route>
 
