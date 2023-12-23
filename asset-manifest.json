@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/nohasabper.github.io/e-commerce-/static/css/main.885ac620.css",
-    "main.js": "/nohasabper.github.io/e-commerce-/static/js/main.b867a292.js",
-    "index.html": "/nohasabper.github.io/e-commerce-/index.html",
-    "main.885ac620.css.map": "/nohasabper.github.io/e-commerce-/static/css/main.885ac620.css.map",
-    "main.b867a292.js.map": "/nohasabper.github.io/e-commerce-/static/js/main.b867a292.js.map"
+    "main.css": "/e-commerce-/static/css/main.885ac620.css",
+    "main.js": "/e-commerce-/static/js/main.b867a292.js",
+    "index.html": "/e-commerce-/index.html",
+    "main.885ac620.css.map": "/e-commerce-/static/css/main.885ac620.css.map",
+    "main.b867a292.js.map": "/e-commerce-/static/js/main.b867a292.js.map"
   },
   "entrypoints": [
     "static/css/main.885ac620.css",
