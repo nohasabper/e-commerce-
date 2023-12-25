@@ -4,6 +4,8 @@ import Table from 'react-bootstrap/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteFromCart } from '../Rtk/Slices/cart-slice';
 import  {clear}  from '../Rtk/Slices/cart-slice';
+import {  NavLink } from 'react-router-dom';
+
 function Cart() {
    const dispatch = useDispatch()
    const cart = useSelector(store => store.cart)
@@ -28,6 +30,7 @@ function Cart() {
             <tbody>
                {cart.map((product) => {
                   return (
+
                      <tr key={product.id}>
                         <td>{product.id}</td>
                         <td>{product.quantity}</td>
@@ -40,7 +43,15 @@ function Cart() {
                })}
             </tbody>
          </Table>
-         
+      
+         <div className='d-flex gap-2 mt-3 justify-content-center'>
+      <NavLink to="/Login" className='nav-link btn btn-primary p-2 bg-primary text-light' role='button'>
+        buy
+      </NavLink>
+      <NavLink to="/Register" className='nav-link btn btn-primary p-2 bg-primary text-light' role='button'>
+        Register
+      </NavLink>
+    </div>
       </>
    )
 }
