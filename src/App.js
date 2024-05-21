@@ -23,6 +23,7 @@ function App() {
         <Route path='/Products' element={<Products/>}></Route>
 
         <Route path='/cart' element={<Cart/>}></Route>       
+
          <Route path="/Products/:id/:String"element={<Singleproduct/>} />
          <Route path='/Users' element={<Users/>}></Route>       
          <Route path='/Create' element={<Create/>}></Route>        
@@ -30,7 +31,7 @@ function App() {
            <Route path='/Login' element={<Login/>}></Route>       
            <Route path='/Register' element={<Register/>}></Route>       
 
-         <Route path='/Users/edit/:id' element={<Update/>}></Route>       
+           <Route path='/Users/update/:id' element={<Update />} />
 
 
 

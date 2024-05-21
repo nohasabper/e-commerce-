@@ -1,36 +1,52 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //create action
+
+
+
+// Users-slices.js
+// Users-slices.js
+// Users-slices.js
+//create action
+
 export const createUser = createAsyncThunk(
   "createUser",
   async (data, { rejectWithValue }) => {
-    console.log("data", data);
-    const response = await fetch(
-      "https://641dd63d945125fff3d75742.mockapi.io/crud",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
-
     try {
+      const response = await fetch(
+        "http://localhost:5038/apiapdullah/usersdata/adduser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (!response.ok) {
+        const errorDetail = await response.json();
+        return rejectWithValue('Failed to add user: ' + (errorDetail.error || 'Unknown error'));
+      }
+
       const result = await response.json();
       return result;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
+
+
+
+
 
 //read action
 export const showUser = createAsyncThunk(
   "showUser",
   async (args, { rejectWithValue }) => {
     const response = await fetch(
-      "https://641dd63d945125fff3d75742.mockapi.io/crud"
+      "http://localhost:5038/apiapdullah/usersdata/getuser"
     );
 
     try {
@@ -39,52 +55,71 @@ export const showUser = createAsyncThunk(
       return result;
     } catch (error) {
       return rejectWithValue(error);
+    
     }
   }
 );
-//delete action
+
+
+
 export const deleteUser = createAsyncThunk(
   "deleteUser",
   async (id, { rejectWithValue }) => {
-    const response = await fetch(
-      `https://641dd63d945125fff3d75742.mockapi.io/crud/${id}`,
-      { method: "DELETE" }
-    );
-
     try {
-      const result = await response.json();
+      const response = await fetch(`http://localhost:5038/apiapdullah/usersdata/deleteuser/${id}`, {
+        method: "DELETE"
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('User not found');
+        } else {
+          throw new Error('Failed to delete user');
+        }
+      }
+
+      const result = await response.text(); // Changed from response.json() to response.text()
       console.log(result);
-      return result;
+      return result; // You might want to return a JSON object if your API returns a JSON response on success
     } catch (error) {
-      return rejectWithValue(error);
+      if (error.name === 'SyntaxError') {
+        throw new Error('Failed to delete user');
+      }
+      return rejectWithValue(error.message);
     }
   }
 );
 
-//update action
+
+
+//update actions
 export const updateUser = createAsyncThunk(
-  "updateUser",
+  'users/updateUser',
   async (data, { rejectWithValue }) => {
-    console.log("updated data", data);
-    const response = await fetch(
-      `https://641dd63d945125fff3d75742.mockapi.io/crud/${data.id}`,
-      {
-        method: "PUT",
+    try {
+      const response = await fetch(`http://localhost:5038/apiapdullah/usersdata/updateuser/${data.id}`, {
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-      }
-    );
+      });
 
-    try {
+      if (!response.ok) {
+        throw new Error('Failed to update user');
+      }
+
       const result = await response.json();
       return result;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
+
+
+
+
 
 export const userDetail = createSlice({
   name: "userDetail",
@@ -140,7 +175,6 @@ export const userDetail = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-
     [updateUser.pending]: (state) => {
       state.loading = true;
     },

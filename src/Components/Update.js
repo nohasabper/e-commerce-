@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { updateUser } from "../Rtk/Slices/Users-slices"
+import { updateUser } from "../Rtk/Slices/Users-slices";
 
 const Update = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [updateData, setUpdateData] = useState();
-
-  const { users, loading } = useSelector((state) => state.app);
+  const [updateData, setUpdateData] = useState({});
+  const { users, loading, error } = useSelector((state) => state.app);
 
   useEffect(() => {
-    if (id) {
-      const singleUser = users.filter((ele) => ele.id === id);
-      setUpdateData(singleUser[0]);
+    if (id && users.length > 0) {
+      const userToUpdate = users.find((user) => user.id === id);
+      setUpdateData(userToUpdate);
     }
-  }, []);
-
-  const newData = (e) => {
-    setUpdateData({ ...updateData, [e.target.name]: e.target.value });
-  };
-
-  console.log("updated data", updateData);
+  }, [id, users]);
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -31,64 +24,71 @@ const Update = () => {
     navigate("/Users");
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdateData({ ...updateData, [name]: value });
+  };
+
   return (
     <div>
       <h2 className="my-2">Edit the data</h2>
       <form className="w-50 mx-auto my-5" onSubmit={handleUpdate}>
-        <div class="mb-3">
-          <label class="form-label">Name</label>
+        <div className="mb-3">
+          <label className="form-label">Name</label>
           <input
             type="text"
             name="name"
-            class="form-control"
-            value={updateData && updateData.name}
-            onChange={newData}
+            className="form-control"
+            value={updateData.name || ""}
+            onChange={handleInputChange}
           />
         </div>
-        <div class="mb-3">
-          <label class="form-label">Email</label>
+        <div className="mb-3">
+          <label className="form-label">Email</label>
           <input
             type="email"
             name="email"
-            class="form-control"
-            value={updateData && updateData.email}
-            onChange={newData}
+            className="form-control"
+            value={updateData.email || ""}
+            onChange={handleInputChange}
           />
         </div>
-        <div class="mb-3">
-          <label class="form-label">Age</label>
+        <div className="mb-3">
+          <label className="form-label">Age</label>
           <input
-            type="text"
+            type="number"
             name="age"
-            class="form-control"
-            value={updateData && updateData.age}
-            onChange={newData}
+            className="form-control"
+            value={updateData.age || ""}
+            onChange={handleInputChange}
           />
         </div>
-        <div class="mb-3">
-          <input
-            class="form-check-input"
-            name="gender"
-            value="Male"
-            type="radio"
-            checked={updateData && updateData.gender === "Male"}
-            onChange={newData}
-          />
-          <label class="form-check-label">Male</label>
+        <div className="mb-3">
+          <label className="form-label">Gender</label>
+          <div>
+            <input
+              className="form-check-input"
+              name="gender"
+              value="Male"
+              type="radio"
+              checked={updateData.gender === "Male"}
+              onChange={handleInputChange}
+            />
+            <label className="form-check-label">Male</label>
+          </div>
+          <div>
+            <input
+              className="form-check-input"
+              name="gender"
+              value="Female"
+              type="radio"
+              checked={updateData.gender === "Female"}
+              onChange={handleInputChange}
+            />
+            <label className="form-check-label">Female</label>
+          </div>
         </div>
-        <div class="mb-3">
-          <input
-            class="form-check-input"
-            name="gender"
-            value="Female"
-            type="radio"
-            checked={updateData && updateData.gender === "Female"}
-            onChange={newData}
-          />
-          <label class="form-check-label">Female</label>
-        </div>
-
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" className="btn btn-primary">
           Submit
         </button>
       </form>

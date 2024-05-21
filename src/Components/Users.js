@@ -6,71 +6,67 @@ import CustomModal from "./CustomModal";
 
 const Users = () => {
   const dispatch = useDispatch();
-
   const [id, setId] = useState();
-
   const [radioData, setRadioData] = useState("");
-
   const [showPopup, setShowPopup] = useState(false);
 
-  const { users, loading, searchData } = useSelector((state) => state.app);
+  // Get data from Redux store
+  const { users, loading, error, searchData } = useSelector((state) => state.app);
 
   useEffect(() => {
     dispatch(showUser());
-  }, []);
+  }, [dispatch]);
 
+  // Error handling
   if (loading) {
-    return <h2>Loading</h2>;
+    return <h2>Loading...</h2>;
   }
-  
+
+  if (error) {
+    return <h2>Error: {error}</h2>;
+  }
 
   return (
-    <div style={{ margin:"5rem"}}>
+    <div style={{ margin: "5rem" }}>
       {showPopup && (
-        <CustomModal
-          id={id}
-          showPopup={showPopup}
-          setShowPopup={setShowPopup}
-        />
+        <CustomModal id={id} showPopup={showPopup} setShowPopup={setShowPopup} />
       )}
       <h2>All data</h2>
       <input
-        class="form-check-input"
+        className="form-check-input"
         name="gender"
         checked={radioData === ""}
         type="radio"
-        onChange={(e) => setRadioData("")}
+        onChange={() => setRadioData("")}
       />
-      <label class="form-check-label">All</label>
+      <label className="form-check-label">All</label>
       <input
-        class="form-check-input"
+        className="form-check-input"
         name="gender"
         checked={radioData === "Male"}
         value="Male"
         type="radio"
         onChange={(e) => setRadioData(e.target.value)}
       />
-      <label class="form-check-label">Male</label>
+      <label className="form-check-label">Male</label>
       <input
-        class="form-check-input"
+        className="form-check-input"
         name="gender"
         value="Female"
         checked={radioData === "Female"}
         type="radio"
         onChange={(e) => setRadioData(e.target.value)}
       />
-      <label class="form-check-label">Female</label>
+      <label className="form-check-label">Female</label>
 
-      <div >
+      <div>
         {users &&
           users
             .filter((ele) => {
               if (searchData.length === 0) {
                 return ele;
               } else {
-                return ele.name
-                  .toLowerCase()
-                  .includes(searchData.toLowerCase());
+                return ele.name.toLowerCase().includes(searchData.toLowerCase());
               }
             })
             .filter((ele) => {
@@ -80,33 +76,34 @@ const Users = () => {
                 return ele.gender === radioData;
               } else return ele;
             })
-
             .map((ele) => (
               <div key={ele.id} className="card w-50 mx-auto my-2">
                 <div className="card-body">
                   <h5 className="card-title">{ele.name}</h5>
                   <h6 className="card-subtitle mb-2 text-muted">{ele.email}</h6>
                   <p className="card-text">{ele.gender}</p>
-                  <button
+                  {/* <button
                     className="card-link"
                     onClick={() => [setId(ele.id), setShowPopup(true)]}
                   >
                     View
-                  </button>
-                  <Link to={`/Users/edit/${ele.id}`} className="card-link">
+                  </button> */}
+                  <Link to={`/Users/update/${ele.id}`} className="card-link btn btn-secondary">
                     Edit
                   </Link>
                   <Link
                     onClick={() => dispatch(deleteUser(ele.id))}
-                    className="card-link"
+                    className="card-link btn btn-danger"
                   >
                     Delete
                   </Link>
                 </div>
               </div>
             ))}
-      </div>  <Link to="/Create" class="btn btn-primary">Create new user</Link>
-
+      </div>
+      <Link to="/Create" className="btn btn-primary">
+        Create new user
+      </Link>
     </div>
   );
 };

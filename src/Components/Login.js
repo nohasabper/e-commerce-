@@ -1,6 +1,8 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { showUser } from "../Rtk/Slices/Users-slices";
 
 export default function Login() {
   const initialFormData = {
@@ -8,20 +10,18 @@ export default function Login() {
     password: "",
   };
 
+  const dispatch = useDispatch();
+  const { users, loading } = useSelector((state) => state.app);
+
   const [formData, setFormData] = useState(initialFormData);
   const [err, setErr] = useState({
     email: null,
     password: null,
   });
 
-  const [registeredUserData, setRegisteredUserData] = useState(null);
-
   useEffect(() => {
-    const savedUserData = localStorage.getItem("userData");
-    if (savedUserData) {
-      setRegisteredUserData(JSON.parse(savedUserData));
-    }
-  }, []);
+    dispatch(showUser()); // Dispatch the action to fetch user data
+  }, [dispatch]);
 
   const changeHandler = (e) => {
     setErr({
@@ -34,20 +34,55 @@ export default function Login() {
       [e.target.name]: e.target.value,
     });
   };
-
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-
-    if (
-      registeredUserData &&
-      registeredUserData.email === formData.email &&
-      registeredUserData.password === formData.password
-    ) {
-      alert(`Welcome, ${registeredUserData.txt}! Login successful! ✔👌`);
-    } else {
-      alert("Incorrect email or password. Please try again.");
+  
+    try {
+      // Set loading state while fetching data
+      // You can show a loading spinner or a message to the user
+      // based on the 'loading' state
+      if (loading) {
+        // Show loading indicator
+        return;
+      }
+  
+      const foundUser = users && users.find(
+        (user) => user.email === formData.email && user.id === formData.password
+      );
+  
+      if (foundUser) {
+        alert(`Welcome, ${foundUser.name}! Login successful! ✔👌`);
+      } else {
+        setErr({
+          email: "Incorrect email or password. Please try again.",
+          password: "Incorrect email or password. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setErr({
+        email: "An error occurred. Please try again later.",
+        password: "An error occurred. Please try again later.",
+      });
     }
   };
+  
+  
+
+  
+  // const submitHandler = (e) => {
+  //   e.preventDefault();
+
+  //   if (
+  //     registeredUserData &&
+  //     registeredUserData.email === formData.email &&
+  //     registeredUserData.password === formData.password
+  //   ) {
+  //     alert(`Welcome, ${registeredUserData.txt}! Login successful! ✔👌`);
+  //   } else {
+  //     alert("Incorrect email or password. Please try again.");
+  //   }
+  // };
 
   return (
     <Form
